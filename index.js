@@ -2,7 +2,7 @@
 * @Author: caiyou
 * @Date:   2016-09-13 12:08:12
 * @Last Modified by:   caiyou
-* @Last Modified time: 2016-09-18 17:09:07
+* @Last Modified time: 2016-09-18 18:02:58
 */
 
 'use strict';
@@ -14,7 +14,6 @@ const co = require('co'),
       fs = require('co-fs');
 
 co(function* () {
-  yield fs.unlink('content.txt');
   for(let i = 0;; i++) {
     yield fs.writeFile('content.txt', '\n\n\n' + '>>>>>>>>>>>>>>第'+(i + 1)+'页<<<<<<<<<<<<<<' + '\n\n', {
       flag: 'a+'
@@ -48,5 +47,6 @@ co(function* () {
     }
   }
 }).catch(err => {
+  console.log('co err catch');
   console.log(err);
 });
