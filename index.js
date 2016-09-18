@@ -2,7 +2,7 @@
 * @Author: caiyou
 * @Date:   2016-09-13 12:08:12
 * @Last Modified by:   caiyou
-* @Last Modified time: 2016-09-18 18:33:46
+* @Last Modified time: 2016-09-18 18:52:51
 */
 
 'use strict';
@@ -13,8 +13,8 @@ const co = require('co'),
       colors = require('colors'),
       fs = require('co-fs');
 
-// let prodId = 1164570;
-let prodId = 1333697;
+let prodId = 1164570;
+// let prodId = 1333697;
 let commentFile = '';
 
 co(function* () {
@@ -27,7 +27,7 @@ co(function* () {
   for(page = 0;; page++) {
     console.log('正在读取SKU: ' + prodId + '第' +(page + 1)+ '页');
     commentFile += '>>>>>>>>>>>>>>第'+(page + 1)+'页<<<<<<<<<<<<<<' + '\n\n';
-    // console.log(colors.inverse('>>>>>>>>>>>>>>第'+(i + 1)+'页<<<<<<<<<<<<<<'));
+    // console.log(colors.inverse('>>>>>>>>>>>>>>第'+(page + 1)+'页<<<<<<<<<<<<<<'));
     let res = yield request({
       uri: 'http://sclub.jd.com/productpage/p-' + prodId + '-s-0-t-3-p-'+page+'.html?callback=',
       encoding: null
@@ -72,6 +72,5 @@ co(function* () {
   console.log('耗时' + (end-start) + 'ms');
 
 }).catch(err => {
-  console.log('co err catch');
   console.log(err);
 });
