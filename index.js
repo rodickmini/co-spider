@@ -2,7 +2,7 @@
 * @Author: caiyou
 * @Date:   2016-09-13 12:08:12
 * @Last Modified by:   caiyou
-* @Last Modified time: 2016-09-19 12:38:45
+* @Last Modified time: 2016-09-19 14:09:30
 */
 
 'use strict';
@@ -17,6 +17,7 @@ const co = require('co'),
 // let prodId = 1164570;//瓦尔塔
 let prodId = 2520353;
 let commentFile = '';
+let commentArr = [];
 
 let render = views(__dirname + '/views', {ext: 'ejs'});
 
@@ -47,10 +48,10 @@ co(function* () {
 
   app.use(function* (next) {
     let page = 0;
-
     yield fs.open('./content.txt', 'w');
 
     for(page = 0; page < 10; page++) {
+      let commentPerPage = [];
       console.log('正在读取SKU: ' + prodId + '第' +(page + 1)+ '页');
       commentFile += '>>>>>>>>>>>>>>第'+(page + 1)+'页<<<<<<<<<<<<<<' + '\n\n';
       let res = yield request({
@@ -61,11 +62,18 @@ co(function* () {
         let resData = JSON.parse(iconv.decode(res.body, 'GBK'));
         let comm = resData.comments;
         if(comm.length > 0) {
-          comm.forEach(co.wrap(function* (el) {
+          comm.forEach((el)=> {
             var starStr = convertScoreToStars(el.score);
             let fileContent = '【' + el.nickname + '】【' + el.referenceTime + '】 ' + starStr + el.score +'星' + '\n' + el.content + '\n\n'
             commentFile += fileContent;
-          }));
+            commentPerPage.push({
+              nickname: el.nickname,
+              referenceTime: el.referenceTime,
+              starStr: starStr,
+              score: el.score,
+              content: el.content
+            });
+          });
         }else {
           break;
         }
@@ -76,6 +84,10 @@ co(function* () {
         });
         commentFile = '';
       }
+      commentArr.push({
+        page: page + 1,
+        commentList: commentPerPage
+      });
     }
     if(commentFile) {
       yield fs.writeFile('content.txt', commentFile, {
@@ -92,8 +104,7 @@ co(function* () {
   });
 
   app.use(function* () {
-    let content = yield fs.readFile('content.txt', 'utf-8');
-    this.body = content;
+    this.body = yield render('comments', {comments: commentArr});
   });
 
 

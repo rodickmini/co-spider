@@ -1,10 +1,29 @@
+<style>
+  .page-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 40px 0 10px;
+  }
+  .nick {
+    color: #007f80;
+  }
+  .time {
+    color: #999;
+  }
+  .star {
+    color: #ffd600;
+  }
+</style>
+
 <% for(var i = 0; i< comments.length; i++) {%>
-  <h3><%= comments[i].page%></h1>
-  <div>
-    <span>【<%= comments[i].nickname %>】</span>
-    <span>【<%= comments[i].referenceTime %>】</span>
-    <span><%= comments[i].starStr %></span>
-    <span><%= comments[i].score %>星</span>
-  </div>
-  <p><%= comments[i].content %></p>
+  <h3 class="page-title">#第<%= comments[i].page%>页</h3>
+  <% for(var j = 0; j < comments[i].commentList.length; j++) { %>
+    <div>
+      <span class="nick">【<%= comments[i].commentList[j].nickname %>】</span>
+      <span class="time">【<%= comments[i].commentList[j].referenceTime %>】</span>
+      <span class="star"><%= comments[i].commentList[j].starStr %></span>
+      <span><%= comments[i].commentList[j].score %>星</span>
+    </div>
+    <p><%= comments[i].commentList[j].content %></p>
+  <% } %>
 <% } %>
