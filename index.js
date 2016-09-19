@@ -2,7 +2,7 @@
 * @Author: caiyou
 * @Date:   2016-09-13 12:08:12
 * @Last Modified by:   caiyou
-* @Last Modified time: 2016-09-19 14:09:30
+* @Last Modified time: 2016-09-19 14:47:38
 */
 
 'use strict';
@@ -50,7 +50,7 @@ co(function* () {
     let page = 0;
     yield fs.open('./content.txt', 'w');
 
-    for(page = 0; page < 10; page++) {
+    for(page = 0; page < 100; page++) {
       let commentPerPage = [];
       console.log('正在读取SKU: ' + prodId + '第' +(page + 1)+ '页');
       commentFile += '>>>>>>>>>>>>>>第'+(page + 1)+'页<<<<<<<<<<<<<<' + '\n\n';
@@ -110,6 +110,6 @@ co(function* () {
 
 
   app.listen(3000);
-  console.log('crawler is listening at PORT 3000...');
+  console.log('crawler is listening on PORT 3000...');
 }).catch(onerror);
 
