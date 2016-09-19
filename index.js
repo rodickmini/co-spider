@@ -2,7 +2,7 @@
 * @Author: caiyou
 * @Date:   2016-09-13 12:08:12
 * @Last Modified by:   caiyou
-* @Last Modified time: 2016-09-18 18:52:51
+* @Last Modified time: 2016-09-19 10:02:13
 */
 
 'use strict';
@@ -37,12 +37,7 @@ co(function* () {
       let comm = resData.comments;
       if(comm.length > 0) {
         comm.forEach(co.wrap(function* (el) {
-          var starArr = [], starStr;
-          for(var i = 0; i < el.score; i++) {
-            starArr.push('★');
-          }
-          starStr = starArr.toString();
-          starStr = starStr.replace(/,/g, ' ');
+          var starStr = convertScoreToStars(el.score);
           let fileContent = '【' + el.nickname + '】【' + el.referenceTime + '】 ' + starStr + '\n' + el.content + '\n\n'
           commentFile += fileContent;
           // let content = '【' + el.nickname.cyan + '】【' + el.referenceTime.red + '】 ' + starStr.yellow + '\n' + el.content + '\n';
@@ -74,3 +69,14 @@ co(function* () {
 }).catch(err => {
   console.log(err);
 });
+
+function convertScoreToStars(score) {
+  let starArr = [], starStr;
+  for(let i = 0; i < score; i++) {
+    starArr.push('★');
+  }
+  starStr = starArr.toString();
+  starStr = starStr.replace(/,/g, ' ');
+
+  return starStr;
+}
