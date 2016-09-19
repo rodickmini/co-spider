@@ -2,7 +2,7 @@
 * @Author: caiyou
 * @Date:   2016-09-13 12:08:12
 * @Last Modified by:   caiyou
-* @Last Modified time: 2016-09-19 10:03:33
+* @Last Modified time: 2016-09-19 10:49:18
 */
 
 'use strict';
@@ -16,6 +16,11 @@ const co = require('co'),
 let prodId = 1164570;
 // let prodId = 1333697;
 let commentFile = '';
+
+function onerror(err) {
+  console.error(err.stack);
+  console.log(err);
+}
 
 co(function* () {
 
@@ -66,9 +71,7 @@ co(function* () {
   console.log('共爬取' + (page + 1) + '页评论数据');
   console.log('耗时' + (end-start) + 'ms');
 
-}).catch(err => {
-  console.log(err);
-});
+}).catch(onerror);
 
 function convertScoreToStars(score) {
   let starArr = [], starStr;
