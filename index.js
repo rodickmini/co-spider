@@ -2,7 +2,7 @@
 * @Author: caiyou
 * @Date:   2016-09-13 12:08:12
 * @Last Modified by:   caiyou
-* @Last Modified time: 2016-09-19 12:16:12
+* @Last Modified time: 2016-09-19 12:38:45
 */
 
 'use strict';
@@ -11,11 +11,14 @@ const co = require('co'),
       app = require('koa')(),
       iconv = require('iconv-lite'),
       request = require('co-request'),
-      fs = require('co-fs');
+      fs = require('co-fs'),
+      views = require('co-views');
 
 // let prodId = 1164570;//瓦尔塔
 let prodId = 2520353;
 let commentFile = '';
+
+let render = views(__dirname + '/views', {ext: 'ejs'});
 
 function onerror(err) {
   console.error(err.stack);
@@ -47,7 +50,7 @@ co(function* () {
 
     yield fs.open('./content.txt', 'w');
 
-    for(page = 0;; page++) {
+    for(page = 0; page < 10; page++) {
       console.log('正在读取SKU: ' + prodId + '第' +(page + 1)+ '页');
       commentFile += '>>>>>>>>>>>>>>第'+(page + 1)+'页<<<<<<<<<<<<<<' + '\n\n';
       let res = yield request({

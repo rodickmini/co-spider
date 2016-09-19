@@ -1,0 +1,10 @@
+<% for(var i = 0; i< comments.length; i++) {%>
+  <h3><%= comments[i].page%></h1>
+  <div>
+    <span>【<%= comments[i].nickname %>】</span>
+    <span>【<%= comments[i].referenceTime %>】</span>
+    <span><%= comments[i].starStr %></span>
+    <span><%= comments[i].score %>星</span>
+  </div>
+  <p><%= comments[i].content %></p>
+<% } %>
